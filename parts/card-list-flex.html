@@ -74,9 +74,9 @@
         <div class="task-list">
             <div class="task" data-task-id="1">
                 <div class="time-display">
-                    <input type="text" name="" id="hours" placeholder="HH">:
-                    <input type="text" name="" id="minutes" placeholder="mm">:
-                    <input type="text" name="" id="seconds" placeholder="ss">
+                    <input type="text" name="" class="hours" placeholder="HH">:
+                    <input type="text" name="" class="minutes" placeholder="mm">:
+                    <input type="text" name="" class="seconds" placeholder="ss">
                 </div>
                 <div class="task-label">
                     <input type="text" name="task" placeholder="Enter Task Name">
@@ -87,7 +87,7 @@
     <script>
         document.querySelector("#newbtn").addEventListener("click", addTask);
         var taskList = document.querySelector(".task-list");
-        var taskString = '<div class="task" data-task-id="1">                <div class="time-display">                    <input type="text" name="" id="hours" placeholder="HH">:                    <input type="text" name="" id="minutes" placeholder="mm">:                    <input type="text" name="" id="seconds" placeholder="ss">                </div>                <div class="task-label">                    <input type="text" name="task" placeholder="Enter Task Name">                </div>            </div>';
+        var taskString = '<div class="task" data-task-class="1">                <div class="time-display">                    <input type="text" name="" class="hours" placeholder="HH">:                    <input type="text" name="" class="minutes" placeholder="mm">:                    <input type="text" name="" class="seconds" placeholder="ss">                </div>                <div class="task-label">                    <input type="text" name="task" placeholder="Enter Task Name">                </div>            </div>';
 
         /**
          * When adding task item ui, just record the task reference # (as meta property). 
