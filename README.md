@@ -8,8 +8,15 @@ While design is important, I want to focus on the functionality and therefore wi
 While I'm not completely new to front end concepts, I want to break down the development process into small research spikes that will produce demo components. Once I feel that I have enough components to address the minimum requirements I set out to create, I will integrate these components and make my first implementation.
 
 # Action Items
-- [ ] Do some research
+- [X] Do some research
 - [ ] Determine minimum requirements
 - [ ] Create a mock up of minimum UI
 - [ ] Create components for each requirement
+ - [X] Time
 - [ ] Finish this
+
+# Features
+- Timer hh:mm:ss
+- Time cards
+- Drag cards vertically to reposition
+- Buttons: Add new card, Select cards, Delete cards
