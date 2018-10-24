@@ -1,0 +1,62 @@
+main{
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    font-size: 2em;
+    border: black solid 1px;
+    background-color: bisque;
+}
+
+.control-panel{
+    display: flex;
+    justify-content: space-around;
+    background-color: rgb(217, 217, 219);
+    border: rgb(160, 160, 160) solid 1px;
+    margin: 5px 5px 0px 5px;
+}
+
+.task-list {
+    overflow: hidden;
+    overflow-y: scroll;
+    /* relative to browser view-port */
+    height: 80vh;
+    background-color: rgb(217, 217, 219);
+    border: rgb(160, 160, 160) solid 1px;
+    padding: 0px 10px 0px 10px;
+    margin: 5px;
+}
+.task{
+    border: rgb(177, 205, 249) ridge 1px;
+    border-radius: 10px;
+    height: 20%;
+    background-color: rgb(234, 242, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 1px;
+}
+
+.time-display,.task-label{
+    display: flex;
+    margin: 3px;
+    justify-content: start;
+}
+
+.time-display>input{
+    width: 25%;
+    font-size: 90%;
+}
+
+.task-label>input{
+    width: 99%;
+}
+
+.task-menu{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.deleteBtn:hover{
+    cursor: pointer;
+}

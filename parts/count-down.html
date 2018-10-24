@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Modify count-up.html to count down instead</title>
 
     <style>
         #time-display{
@@ -20,14 +20,16 @@
 <body>
     <h1>Timer App</h1>
     <div id="time-display">
-        <input type="text" name="" id="hours" value="00" disabled>
-        <input type="text" name="" id="minutes" value="00" disabled>
-        <input type="text" name="" id="seconds" value="00" disabled>
+        <input type="text" name="" id="hours" value="00">
+        <input type="text" name="" id="minutes" value="00">
+        <input type="text" name="" id="seconds" value="00">
     </div>
     <button id="start">Start</button>
     <button id="stop">Stop</button>
     <button id="reset">Reset</button>
     <script>
+
+        // button events
         document.querySelector("#start").addEventListener('click', start);
         document.querySelector("#stop").addEventListener('click', stop);
         document.querySelector("#reset").addEventListener('click', reset);
@@ -35,28 +37,56 @@
         var handler = null;
         var x = 0;
         var hour = document.querySelector("#hours");
+        hour.addEventListener('keydown', validate);
         var minute = document.querySelector("#minutes");
+        minute.addEventListener('keydown', validate);
         var second = document.querySelector("#seconds");
+        second.addEventListener('keydown', validate);
+
+        var numbers = /^\d+$/g;
+        // input listeners
+        // prevent invalid characters from being entered
+        function validate(event) {
+            console.log(event.key + ' was pressed!');
+            if (!numbers.test(event.key) && event.key.length == 1) {
+                event.preventDefault();
+            }
+        }
 
         function start() {
             stop();
-            handler = setInterval(function () {
-                x = x + 1;
-                s = Math.floor(x % 60);
-                m = Math.floor((x / 60) % 60);
-                h = Math.floor((x / 3600) % 24);
-                hour.value = xx(h);
-                minute.value = xx(m);
-                second.value = xx(s);
-            }, 1000);
+
+            // extract from input and calculate x
+            x = parseInt(second.value) + parseInt(minute.value) * 60 + parseInt(hour.value) * 3600;
+            if (x > 0) {
+                // disable inputs
+                disableInputs(true);
+                handler = setInterval(function () {
+                    x = x - 1;
+                    s = Math.floor(x % 60);
+                    m = Math.floor((x / 60) % 60);
+                    h = Math.floor((x / 3600) % 24);
+                    hour.value = xx(h);
+                    minute.value = xx(m);
+                    second.value = xx(s);
+                }, 1000);
+            }
         };
 
         function stop() {
+            // enable inputs
+            disableInputs(false);
             if (handler) {
                 clearInterval(handler);
                 handler = null;
             }
         };
+
+        function disableInputs(disabled) {
+            hour.disabled = disabled;
+            minute.disabled = disabled;
+            second.disabled = disabled;
+        }
 
         function reset() {
             stop();

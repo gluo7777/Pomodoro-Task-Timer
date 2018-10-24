@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        #time-display{
+            display: flex;
+        }
+        div>input{
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Timer App</h1>
+    <div id="time-display">
+        <input type="text" name="" id="hours" value="00" disabled>
+        <input type="text" name="" id="minutes" value="00" disabled>
+        <input type="text" name="" id="seconds" value="00" disabled>
+    </div>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+    <script>
+        document.querySelector("#start").addEventListener('click', start);
+        document.querySelector("#stop").addEventListener('click', stop);
+        document.querySelector("#reset").addEventListener('click', reset);
+
+        var handler = null;
+        var x = 0;
+        var hour = document.querySelector("#hours");
+        var minute = document.querySelector("#minutes");
+        var second = document.querySelector("#seconds");
+
+        function start() {
+            stop();
+            handler = setInterval(function () {
+                x = x + 1;
+                s = Math.floor(x % 60);
+                m = Math.floor((x / 60) % 60);
+                h = Math.floor((x / 3600) % 24);
+                hour.value = xx(h);
+                minute.value = xx(m);
+                second.value = xx(s);
+            }, 1000);
+        };
+
+        function stop() {
+            if (handler) {
+                clearInterval(handler);
+                handler = null;
+            }
+        };
+
+        function reset() {
+            stop();
+            x = 0;
+            hour.value = "00";
+            minute.value = "00";
+            second.value = "00";
+        };
+
+        function xx(num) {
+            return String(num).padStart(2, "0");
+        }
+    </script>
+</body>
+
+</html>
