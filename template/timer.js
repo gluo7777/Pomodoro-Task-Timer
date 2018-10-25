@@ -1,3 +1,5 @@
+'use strict';
+
 var taskList;
 // static task template
 var taskString = '<div class="task" data-task-id="1">'
