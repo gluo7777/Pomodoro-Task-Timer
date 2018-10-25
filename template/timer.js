@@ -5,13 +5,15 @@ var taskString = '<div class="task" data-task-id="1">'
     + '<input type="text" name="" class="hours" placeholder="HH">:'
     + '<input type="text" name="" class="minutes" placeholder="mm">:'
     + '<input type="text" name="" class="seconds" placeholder="ss">'
-    + '<button class="material-icons">delete</button>'
+    + '<div class="task-menu">'
+    + '<div class="material-icons deleteBtn">delete</div>'
+    + '</div>'
     + '</div>'
     + '<div class="task-label">'
     + '<input type="text" name="task" placeholder="Enter Task Name">'
     + '</div></div>';
 // regex
-var numbers = /^\d+$/g;
+var numbers = /^\d+$/;
 // internal logic
 var handler = null; // keeps track of running handler
 var x = 0; // keeps track of total seconds
@@ -37,9 +39,28 @@ function addTask() {
     var taskId = taskList.childElementCount;
     var task = htmlToElement(taskString);
     task.setAttribute("data-task-id", String(taskId));
+    // add validation handlers
+    var lst = task.querySelectorAll('.time-display>input');
+    for (let i = 0; i < lst.length; i++) {
+        lst[i].addEventListener('keydown', validate);
+    }
+    // add delete task handler
+    createDeleteTaskHandler(task);
+    // add to task list
     taskList.appendChild(task);
     // first input
     task.children.item(0).children.item(0).focus()
+}
+
+/**
+ * add reference to task in function
+ * @param {*} params 
+ */
+function createDeleteTaskHandler(task) {
+    let deleteBtn = task.querySelector('.deleteBtn');
+    deleteBtn.addEventListener('click', function (params) {
+        task.remove();
+    });
 }
 
 function start() {
@@ -83,10 +104,6 @@ function getCurrentTask() {
     var hour = document.querySelector(".hours");
     var minute = document.querySelector(".minutes");
     var second = document.querySelector(".seconds");
-    var lst = [second, minute, hour];
-    for (i in lst) {
-        lst[i].addEventListener('keydown', validate);
-    }
     return {
         task: task,
         hour: hour,
@@ -104,7 +121,7 @@ function getValue(field) {
 // prevent invalid characters from being entered
 function validate(event) {
     console.log(event.key + ' was pressed!');
-    if (!numbers.test(event.key) && event.key.length == 1) {
+    if (numbers.test(event.key) !== true && event.key.length === 1) {
         event.preventDefault();
     }
 }
