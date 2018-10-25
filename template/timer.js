@@ -61,6 +61,7 @@ function addTask() {
 function createDeleteTaskHandler(task) {
     let deleteBtn = task.querySelector('.deleteBtn');
     deleteBtn.addEventListener('click', function (params) {
+        stop();
         task.remove();
     });
 }
@@ -77,10 +78,7 @@ function start() {
                 stop();
             } else {
                 x = x - 1;
-                s = Math.floor(x % 60);
-                m = Math.floor((x / 60) % 60);
-                h = Math.floor((x / 3600) % 24);
-                setTime(h, m, s);
+                setTime(Math.floor((x / 3600) % 24), Math.floor((x / 60) % 60), Math.floor(x % 60));
             }
         }, 1000);
     }
@@ -103,14 +101,12 @@ function reset() {
 
 function getCurrentTask() {
     var task = taskList.querySelector(".task");
-    var hour = document.querySelector(".hours");
-    var minute = document.querySelector(".minutes");
-    var second = document.querySelector(".seconds");
     return {
         task: task,
-        hour: hour,
-        minute: minute,
-        second: second
+        hour: document.querySelector(".hours"),
+        minute: document.querySelector(".minutes"),
+        second: document.querySelector(".seconds"),
+        label: document.querySelector(".task-label>input")
     };
 }
 
@@ -123,25 +119,30 @@ function getValue(field) {
 // prevent invalid characters from being entered
 function validate(event) {
     console.log(event.key + ' was pressed!');
-    if (numbers.test(event.key) !== true && event.key.length === 1) {
+    if ((!numbers.test(event.key) && event.key.length === 1)
+        || (numbers.test(event.key) && String(event.target.value).length == 2)) {
         event.preventDefault();
     }
 }
 
 function setTime(h, m, s) {
     var task = getCurrentTask();
-    task.hour.value = xx(h);
-    task.minute.value = xx(m);
-    task.second.value = xx(s);
+    if (task !== null) {
+        task.hour.value = xx(h);
+        task.minute.value = xx(m);
+        task.second.value = xx(s);
+    }
 }
 
 function disableInputs(disabled) {
     var task = getCurrentTask();
-    task.hour.disabled = disabled;
-    task.minute.disabled = disabled;
-    task.second.disabled = disabled;
+    if (task !== null) {
+        task.hour.disabled = disabled;
+        task.minute.disabled = disabled;
+        task.second.disabled = disabled;
+        task.label.disabled = disabled;
+    }
 }
-
 function xx(num) {
     return String(num).padStart(2, "0");
 }
