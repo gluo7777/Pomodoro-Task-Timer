@@ -1,6 +1,6 @@
 'use strict';
 
-var taskList;
+var taskList, title;
 // static task template
 var taskString = '<div class="task" data-task-id="1">'
     + '<div class="time-display">'
@@ -22,8 +22,9 @@ var x = 0; // keeps track of total seconds
 
 // wait for DOM to register listeners
 document.addEventListener('DOMContentLoaded', function (event) {
-    // reference to task list
+    // Global references to DOM elements
     taskList = document.querySelector(".task-list");
+    title = document.querySelector('title');
     // add events for buttons
     document.querySelector("#start").addEventListener('click', start);
     document.querySelector("#stop").addEventListener('click', stop);
@@ -118,7 +119,7 @@ function getValue(field) {
 // input listeners
 // prevent invalid characters from being entered
 function validate(event) {
-    console.log(event.key + ' was pressed!');
+    // console.log(event.key + ' was pressed!');
     if ((!numbers.test(event.key) && event.key.length === 1)
         || (numbers.test(event.key) && String(event.target.value).length == 2)) {
         event.preventDefault();
@@ -131,6 +132,7 @@ function setTime(h, m, s) {
         task.hour.value = xx(h);
         task.minute.value = xx(m);
         task.second.value = xx(s);
+        title.innerText = `${task.hour.value}:${task.minute.value}:${task.second.value}`;
     }
 }
 

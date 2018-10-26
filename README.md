@@ -16,7 +16,10 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [ ] Finish this
 
 # Features
-- Timer hh:mm:ss
-- Time cards
-- Drag cards vertically to reposition
-- Buttons: Add new card, Select cards, Delete cards
+- [x] Timer hh:mm:ss
+- [x] Time cards
+- [ ] Drag cards vertically to reposition
+- [x] Buttons: Add new card, Select cards, Delete cards
+- [ ] Import tasks using Google Task API and Oauth2.0
+- [ ] Sort Tasks - Can re-import on sorting
+- [ ] Buttons to reposition instead of dragging
