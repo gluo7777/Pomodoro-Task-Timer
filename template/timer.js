@@ -1,19 +1,6 @@
 'use strict';
 
-var taskList, title;
-// static task template
-var taskString = '<div class="task" data-task-id="1">'
-    + '<div class="time-display">'
-    + '<input type="text" name="" class="hours" placeholder="HH">:'
-    + '<input type="text" name="" class="minutes" placeholder="mm">:'
-    + '<input type="text" name="" class="seconds" placeholder="ss">'
-    + '<div class="task-menu">'
-    + '<div class="material-icons deleteBtn">delete</div>'
-    + '</div>'
-    + '</div>'
-    + '<div class="task-label">'
-    + '<input type="text" name="task" placeholder="Enter Task Name">'
-    + '</div></div>';
+var taskList, title, factory, video;
 // regex
 var numbers = /^\d+$/;
 // internal logic
@@ -25,6 +12,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // Global references to DOM elements
     taskList = document.querySelector(".task-list");
     title = document.querySelector('title');
+    video = {
+        input: document.querySelector('.config-column>*>input'),
+        player: document.querySelector('.config-column>.video')
+    };
+    // load templates into DOM
+    let taskTemplate = document.querySelector('.task-template').content.querySelector('.task');
+    factory = {
+        task: function () { return taskTemplate.cloneNode(true); }
+    }
     // add events for buttons
     document.querySelector("#start").addEventListener('click', start);
     document.querySelector("#stop").addEventListener('click', stop);
@@ -39,37 +35,48 @@ document.addEventListener('DOMContentLoaded', function (event) {
  * data-task-id (auto-generated) - position of item in list
  */
 function addTask() {
-    var taskId = taskList.childElementCount;
-    var task = htmlToElement(taskString);
+    let taskId = taskList.childElementCount;
+    let task = factory.task();
     task.setAttribute("data-task-id", String(taskId));
     // add validation handlers
-    var lst = task.querySelectorAll('.time-display>input');
+    let lst = task.querySelectorAll('.time-display>input');
     for (let i = 0; i < lst.length; i++) {
         lst[i].addEventListener('keydown', validate);
     }
-    // add delete task handler
+    // add task handlers
     createDeleteTaskHandler(task);
+    createMovementHandlers(task);
     // add to task list
     taskList.appendChild(task);
     // first input
     task.children.item(0).children.item(0).focus()
 }
 
-/**
- * add reference to task in function
- * @param {*} params 
- */
 function createDeleteTaskHandler(task) {
-    let deleteBtn = task.querySelector('.deleteBtn');
+    let deleteBtn = task.querySelector('.delete.btn');
     deleteBtn.addEventListener('click', function (params) {
         stop();
         task.remove();
     });
 }
 
+function createMovementHandlers(task) {
+    task.querySelector('.up.btn').addEventListener('click', function (params) {
+        if (!timerRunning() && taskList.firstChild !== task) {
+            taskList.insertBefore(task, task.previousSibling);
+        }
+    });
+    task.querySelector('.down.btn').addEventListener('click', function (params) {
+        if (!timerRunning() && taskList.lastChild !== task) {
+            taskList.insertBefore(task.nextSibling, task);
+        }
+    });
+}
+
 function start() {
     stop();
-    var task = getCurrentTask();
+    stopVideo();
+    let task = getCurrentTask();
     x = getValue(task.second.value) + getValue(task.minute.value) * 60 + getValue(task.hour.value) * 3600;
     if (x > 0) {
         // disable inputs
@@ -77,9 +84,10 @@ function start() {
         handler = setInterval(function () {
             if (x <= 0) {
                 stop();
+                playVideoFromUrl();
             } else {
                 x = x - 1;
-                setTime(Math.floor((x / 3600) % 24), Math.floor((x / 60) % 60), Math.floor(x % 60));
+                setTime(Math.floor(x / 3600), Math.floor((x / 60) % 60), Math.floor(x % 60));
             }
         }, 1000);
     }
@@ -101,7 +109,7 @@ function reset() {
 };
 
 function getCurrentTask() {
-    var task = taskList.querySelector(".task");
+    let task = taskList.querySelector(".task");
     return {
         task: task,
         hour: document.querySelector(".hours"),
@@ -112,7 +120,7 @@ function getCurrentTask() {
 }
 
 function getValue(field) {
-    var result = parseInt(field);
+    let result = parseInt(field);
     return isNaN(result) ? 0 : result;
 }
 
@@ -127,7 +135,7 @@ function validate(event) {
 }
 
 function setTime(h, m, s) {
-    var task = getCurrentTask();
+    let task = getCurrentTask();
     if (task !== null) {
         task.hour.value = xx(h);
         task.minute.value = xx(m);
@@ -136,8 +144,12 @@ function setTime(h, m, s) {
     }
 }
 
+function timerRunning() {
+    return getCurrentTask().label.disabled;
+}
+
 function disableInputs(disabled) {
-    var task = getCurrentTask();
+    let task = getCurrentTask();
     if (task !== null) {
         task.hour.disabled = disabled;
         task.minute.disabled = disabled;
@@ -145,14 +157,21 @@ function disableInputs(disabled) {
         task.label.disabled = disabled;
     }
 }
+
 function xx(num) {
     return String(num).padStart(2, "0");
 }
 
-function htmlToElement(html) {
-    // template elmeent introduced in HTML5 has no restrictions on children
-    var template = document.createElement('template');
-    html = html.trim(); // Never return a text node of whitespace as the result
-    template.innerHTML = html;
-    return template.content.firstChild;
+let pattern = /.*v=(\w+).*/;
+function playVideoFromUrl() {
+    let url = video.input.value;
+    let videoId = url !== '' ? url.match(pattern)[1] : null;
+    let embeddedUrl = videoId ? `//www.youtube.com/embed/${videoId}?rel=0&autoplay=1` : null;
+    if (embeddedUrl) {
+        video.player.setAttribute('src', embeddedUrl);
+    }
+}
+
+function stopVideo() {
+    video.player.setAttribute('src', 'about:blank');
 }

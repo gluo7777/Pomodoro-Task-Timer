@@ -13,17 +13,43 @@
 
 <body>
     <main>
-        <div class="control-panel">
-            <!-- This should toggle between Resume/Pause -->
-            <button id="start">Start</button>
-            <button id="stop">Stop</button>
-            <button id="reset">Reset</button>
-            <button id="select">Select</button>
-            <button id="addTask">New</button>
+        <div class="timer-column">
+            <div class="control-panel">
+                <!-- This should toggle between Resume/Pause -->
+                <button id="start">Start</button>
+                <button id="stop">Stop</button>
+                <button id="reset">Reset</button>
+                <button id="select">Select</button>
+                <button id="addTask">New</button>
+            </div>
+            <div class="task-list">
+            </div>
         </div>
-        <div class="task-list">
+        <div class="config-column">
+            <div class="video-panel">
+                <label for="video-input">YouTube Video:</label> <input type="text" name="video-input" placeholder="Enter url of youtube video...">
+            </div>
+            <iframe class="video" src="about:blank" width="400px" height="400px" frameborder="0"></iframe>
         </div>
     </main>
+    <!-- Templates to be used in javascript rendering of DOM -->
+    <template class="task-template">
+        <div class="task" data-task-id="0">
+            <div class="time-display">
+                <div class="task-movebar">
+                    <div class="material-icons up btn">keyboard_arrow_up</div>
+                    <div class="material-icons down btn">keyboard_arrow_down</div>
+                </div>
+                <input type="text" name="" class="hours" placeholder="HH">:
+                <input type="text" name="" class="minutes" placeholder="mm">:
+                <input type="text" name="" class="seconds" placeholder="ss">
+                <div class="task-menu">
+                    <div class="material-icons delete btn">delete</div>
+                </div>
+            </div>
+            <div class="task-label"><input type="text" name="task" placeholder="Enter Task Name"></div>
+        </div>
+    </template>
 </body>
 
 </html>
