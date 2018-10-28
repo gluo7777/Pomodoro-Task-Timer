@@ -9,3 +9,4 @@ client_id.json
 google-tasks-api.html
 parts/google-api-oauth2-setup.html
 task-service/
+examples/

@@ -6,6 +6,7 @@ var numbers = /^\d+$/;
 // internal logic
 var handler = null; // keeps track of running handler
 var x = 0; // keeps track of total seconds
+var configTabs;
 
 // wait for DOM to register listeners
 document.addEventListener('DOMContentLoaded', function (event) {
@@ -13,14 +14,20 @@ document.addEventListener('DOMContentLoaded', function (event) {
     taskList = document.querySelector(".task-list");
     title = document.querySelector('title');
     video = {
-        input: document.querySelector('.config-column>*>input'),
-        player: document.querySelector('.config-column>.video')
+        input: document.querySelector('.video-panel>*>input'),
+        player: document.querySelector('.video-panel>.video')
     };
     // load templates into DOM
-    let taskTemplate = document.querySelector('.task-template').content.querySelector('.task');
+    let template = document.querySelector('.task-template').content;
     factory = {
-        task: function () { return taskTemplate.cloneNode(true); }
+        task: function () { return template.querySelector('.task').cloneNode(true); },
+        importedTask: function () { return template.querySelector('.imported-task').cloneNode(true); }
     }
+    // initialize conig panel tabs
+    document.querySelector('#open-video-panel').addEventListener('click', (e) => displayTab('video-panel'));
+    document.querySelector('#open-imported-task-panel').addEventListener('click', (e) => displayTab('imported-task-panel'));
+    // initialize Google OAuth2 services
+    initializeAPI();
     // add events for buttons
     document.querySelector("#start").addEventListener('click', start);
     document.querySelector("#stop").addEventListener('click', stop);
@@ -29,6 +36,19 @@ document.addEventListener('DOMContentLoaded', function (event) {
     document.querySelector("#select").addEventListener('click', select);
 });
 
+/**
+ * 
+ * @param {tab which triggered this} event 
+ * @param {name of panel to open} panelName 
+ */
+function displayTab(panelName) {
+    // reset other panels
+    document.querySelector('.tablinks.active').classList.remove('active');
+    document.querySelector('.config-column>.panel.active').classList.remove('active');
+    // activate target panel
+    document.querySelector(`#open-${panelName}`).classList.add('active');
+    document.querySelector(`#${panelName}`).classList.add('active');
+}
 
 /**
  * When adding task item ui, just record the task reference # (as meta property). 

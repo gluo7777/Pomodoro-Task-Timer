@@ -18,8 +18,18 @@ While I'm not completely new to front end concepts, I want to break down the dev
 # Features
 - [x] Timer hh:mm:ss
 - [x] Time cards
-- [ ] Drag cards vertically to reposition
 - [x] Buttons: Add new card, Select cards, Delete cards
 - [ ] Import tasks using Google Task API and Oauth2.0
 - [ ] Sort Tasks - Can re-import on sorting
-- [ ] Buttons to reposition instead of dragging
+- [x] Buttons to reposition instead of dragging
+- [ ] Add [snackbar](https://www.w3schools.com/howto/howto_js_snackbar.asp)
+- [ ] Save certain info in cookies
+- [ ] Add horizontal tabs to config panel for different settings (e.g. video player, google tasks sync)
+    - [ ] Above tabs should hide/open their respective panels
+- [ ] Convert to use modules
+
+# Defects
+|   Name                                    |   Fixed       |
+|   :---                                    |   :-----      |
+|`isAuthorized` is not set                  |               |
+|YouTube video not playing in background    |               |

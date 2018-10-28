@@ -20,18 +20,74 @@ main{
     padding: 1px;
 }
 
-.video-panel{
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Styling for each tab page */
+.config-column>.panel{
+    display: none;
+}
+
+.config-column>.panel.active{
+    display: block;
+}
+
+.video-control{
     display: flex;
     justify-content: space-between;
 }
 
-.video-panel>*{
+.video-control>*{
     /* stretch to fill box. applied on flex-children. */
     flex-grow: 1;
 }
 
 .video{
     background-color: aqua;
+}
+
+.imported-task-list{
+    display: flex;
+    flex-direction: column;
+    width: 18%;
+    background-color: gray;
+}
+.imported-task{
+    display: flex;
+    margin: 5px;
+    padding: 5px;
+    border: rgb(177, 205, 249) ridge 1px;
+    border-radius: 10px;
+    background-color: rgb(234, 242, 255);
+}
+.imported-task-body{
+    display: flex;
+    flex-direction: column;
 }
 
 .control-panel{
@@ -52,6 +108,7 @@ main{
     padding: 0px 10px 0px 10px;
     margin: 5px;
 }
+
 .task{
     border: rgb(177, 205, 249) ridge 1px;
     border-radius: 10px;
