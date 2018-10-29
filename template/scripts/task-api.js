@@ -7,6 +7,8 @@ const AUTH_PARAMS = {
     'clientId': '425304648954-b38cldabmopkds1loegli1tlmb658st1.apps.googleusercontent.com',
     'scope': 'https://www.googleapis.com/auth/tasks',
     'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest']
+}, TASK_LIST_REQUEST_PARAMS = {
+    'maxResults': 99
 };
 // application state
 let gauth;
@@ -32,51 +34,77 @@ function notifySigninStatusChange(params) {
     isAuthorized = params;
 }
 
+class Task {
+    constructor() {
+    }
+    list(name, id) {
+        this.listName = name;
+        this.listId = id;
+        return this;
+    }
+    task(name, id) {
+        this.taskName = name;
+        this.taskId = id;
+        return this;
+    }
+    notes(notes) {
+        this.notes = notes;
+        return this;
+    }
+}
+
+function login() {
+    gauth.signIn();
+    isAuthorized = true;
+}
+
+function logout(params) {
+    gauth.disconnect();
+    isAuthorized = false;
+}
+
 /**
  * @todo For testing only
  */
-function listTaskLists() {
+function listTaskLists(tasksHandler) {
     if (isAuthorized) {
-        gapi.client.tasks.tasklists.list({
-            'maxResults': 99
-        }).then(function (response) {
-            console.log('Task Lists:');
-            var taskLists = response.result.items;
-            if (taskLists && taskLists.length > 0) {
-                for (var i = 0; i < taskLists.length; i++) {
-                    var taskList = taskLists[i];
-                    console.log(taskList.title + ' (' + taskList.id + ')');
-                    console.log(`Listing tasks for ${taskList.id}:`);
-                    listTasksForList(taskList.id);
+        gapi.client.tasks.tasklists.list(TASK_LIST_REQUEST_PARAMS)
+            .then(function (response) {
+                if (response.status === '200') {
+                    var taskLists = response.result.items;
+                    if (taskLists && taskLists.length > 0) {
+                        for (var i = 0; i < taskLists.length; i++) {
+                            var taskList = taskLists[i];
+                            listTasksForList(taskLists[i], tasksHandler);
+                        }
+                    } else {
+                        console.log('No task lists found.');
+                    }
                 }
-            } else {
-                console.log('No task lists found.');
-            }
-        });
+            });
     }
 }
 
 /**
  * @todo For testing only
  */
-function listTasksForList(listId) {
+function listTasksForList(taskList, tasksHandler) {
     let requestParams = {
-        'tasklist': listId
+        'tasklist': taskList.id
     };
     gapi.client.tasks.tasks.list(requestParams).then(
         function handleResponse(response) {
-            var tasks = response.result.items;
-            if (tasks && tasks.length > 0) {
-                for (var i = 0; i < tasks.length; i++) {
-                    let task = tasks[i];
-                    console.log(`Title: ${task.title}`
-                        + `\nDescription: ${task.notes ? task.notes : ''}`
-                        + `\nStatus: ${task.status === 'needsAction' ? 'active' : 'completed'}`
-                        + `\nId: ${task.id}`
-                    );
+            if (response.status === '200') {
+                var tasks = response.result.items;
+                if (tasks && tasks.length > 0) {
+                    for (var i = 0; i < tasks.length; i++) {
+                        let task = tasks[i];
+                        let taskItem = new Task().list(taskList.title, taskList.id)
+                            .task(task.title, task.id).notes(task.notes);
+                        tasksHandler(taskItem);
+                    }
                 }
             }
-
         }
     );
 }

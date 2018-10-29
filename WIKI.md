@@ -20,3 +20,6 @@
  - scopes requested
 - exposing client id and api key
  - unavoidable but must restrict referer/origin urls (So that other ppl won't be able to use my exposed info to make requests)
+
+ ## Lessons Learned
+ - setting nowrap in flex-container and width:100% in flex-children produces stretching

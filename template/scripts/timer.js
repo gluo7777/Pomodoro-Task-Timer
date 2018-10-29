@@ -1,12 +1,12 @@
 'use strict';
-
+// dom
 var taskList, title, factory, video;
+var config;
 // regex
 var numbers = /^\d+$/;
 // internal logic
 var handler = null; // keeps track of running handler
 var x = 0; // keeps track of total seconds
-var configTabs;
 
 // wait for DOM to register listeners
 document.addEventListener('DOMContentLoaded', function (event) {
@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     taskList = document.querySelector(".task-list");
     title = document.querySelector('title');
     video = {
-        input: document.querySelector('.video-panel>*>input'),
-        player: document.querySelector('.video-panel>.video')
+        input: document.querySelector('#video-panel>*>input'),
+        player: document.querySelector('#video-panel>.video')
     };
     // load templates into DOM
     let template = document.querySelector('.task-template').content;
@@ -29,11 +29,16 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // initialize Google OAuth2 services
     initializeAPI();
     // add events for buttons
+    //// Task Panel
     document.querySelector("#start").addEventListener('click', start);
     document.querySelector("#stop").addEventListener('click', stop);
     document.querySelector("#reset").addEventListener('click', reset);
     document.querySelector("#addTask").addEventListener("click", addTask);
     document.querySelector("#select").addEventListener('click', select);
+    //// Import Panel
+    document.querySelector("#sync").addEventListener('click', importTasks);
+    document.querySelector("#accounts").addEventListener('click', switchAccounts);
+    // document.querySelector("#sync").addEventListener('click', selectImportedTasks);
 });
 
 /**
@@ -128,6 +133,36 @@ function reset() {
     setTime(0, 0, 0);
 };
 
+//// Import Panel ////
+function importTasks() {
+    if (!isAuthorized) {
+        login();
+    }
+    // reset panel by replacing it with a shallow copy
+    let importPanel = document.querySelector('.imported-task-list');
+    document.querySelector('#imported-task-panel').replaceChild(importPanel.cloneNode(false), importPanel);
+    // AJAX call to asynchronously import and display tasks
+    listTaskLists(addTaskToDisplay);
+}
+
+function addTaskToDisplay(task) {
+    // instantiate template and use task to populate it
+    let template = factory.importedTask();
+    template.querySelector('#list').value = task.listName;
+    template.querySelector('#task').value = task.taskName;
+    template.querySelector('#description').value = task.notes ? task.notes : '';
+    // then add it to import-task-list
+    document.querySelector('.imported-task-list').appendChild(template);
+}
+
+function switchAccounts() {
+    if (isAuthorized) {
+        logout();
+    }
+    importTasks();
+}
+
+//// Helper Functions ////
 function getCurrentTask() {
     let task = taskList.querySelector(".task");
     return {

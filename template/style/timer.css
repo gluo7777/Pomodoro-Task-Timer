@@ -71,11 +71,15 @@ main{
     background-color: aqua;
 }
 
+.imported-task-panel{
+    background-color: rgb(143, 188, 255);
+}
+
 .imported-task-list{
-    display: flex;
-    flex-direction: column;
-    width: 18%;
     background-color: gray;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 75vh;
 }
 .imported-task{
     display: flex;
@@ -84,6 +88,7 @@ main{
     border: rgb(177, 205, 249) ridge 1px;
     border-radius: 10px;
     background-color: rgb(234, 242, 255);
+    height: 20%;
 }
 .imported-task-body{
     display: flex;
@@ -92,10 +97,16 @@ main{
 
 .control-panel{
     display: flex;
-    justify-content: space-around;
+    justify-content: stretch;
+    flex-wrap: nowrap;
     background-color: rgb(217, 217, 219);
     border: rgb(160, 160, 160) solid 1px;
     margin: 5px 5px 0px 5px;
+}
+
+.control-panel>*{
+    flex-flow: 1;
+    width: 100%;
 }
 
 .task-list {

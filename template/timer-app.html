@@ -38,7 +38,13 @@
                 <iframe class="video" src="about:blank" width="400px" height="400px" frameborder="0"></iframe>
             </div>
             <div id="imported-task-panel" class="panel">
-                <div class="imported-task-list"></div>
+                <div class="control-panel">
+                    <button id="sync">Sync</button>
+                    <button id="accounts">Accounts</button>
+                    <button id="selectImportedTasks">Select</button>
+                </div>
+                <div class="imported-task-list">
+                </div>
             </div>
         </div>
         </div>
@@ -63,8 +69,9 @@
         <div class="imported-task">
             <button class="material-icons">arrow_left</button>
             <div class="imported-task-body">
-                <textarea name="" id="title" cols="30" rows="3" placeholder="Task Body" disabled></textarea>
-                <textarea name="" id="description" cols="30" rows="10" placeholder="Task Body" disabled></textarea>
+                <textarea name="" id="list" cols="30" rows="3" placeholder="Name of List" disabled></textarea>
+                <textarea name="" id="task" cols="30" rows="3" placeholder="Name of Task" disabled></textarea>
+                <textarea name="" id="description" cols="30" rows="10" placeholder="Notes for Task" disabled></textarea>
             </div>
             <button class="material-icons">delete</button>
         </div>
