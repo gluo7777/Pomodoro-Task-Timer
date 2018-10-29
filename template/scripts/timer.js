@@ -27,7 +27,21 @@ document.addEventListener('DOMContentLoaded', function (event) {
     document.querySelector('#open-video-panel').addEventListener('click', (e) => displayTab('video-panel'));
     document.querySelector('#open-imported-task-panel').addEventListener('click', (e) => displayTab('imported-task-panel'));
     // initialize Google OAuth2 services
-    initializeAPI();
+    taskapi.setTaskHandler(function addTaskToDisplay(task) {
+        // instantiate template and use task to populate it
+        let template = factory.importedTask();
+        template.querySelector('#list').value = task.listName;
+        template.querySelector('#task').value = task.taskName;
+        template.querySelector('#description').value = task.notes ? task.notes : '';
+        // then add it to import-task-list
+        document.querySelector('.imported-task-list').appendChild(template);
+    });
+    taskapi.setSignInHandler(function (signedIn) {
+        if (signedIn) {
+            importTasks();
+        }
+    });
+    taskapi.initializeAPI();
     // add events for buttons
     //// Task Panel
     document.querySelector("#start").addEventListener('click', start);
@@ -135,31 +149,21 @@ function reset() {
 
 //// Import Panel ////
 function importTasks() {
-    if (!isAuthorized) {
-        login();
-    }
     // reset panel by replacing it with a shallow copy
     let importPanel = document.querySelector('.imported-task-list');
     document.querySelector('#imported-task-panel').replaceChild(importPanel.cloneNode(false), importPanel);
+    if (!taskapi.authorized()) {
+        taskapi.login();
+    }
     // AJAX call to asynchronously import and display tasks
-    listTaskLists(addTaskToDisplay);
-}
-
-function addTaskToDisplay(task) {
-    // instantiate template and use task to populate it
-    let template = factory.importedTask();
-    template.querySelector('#list').value = task.listName;
-    template.querySelector('#task').value = task.taskName;
-    template.querySelector('#description').value = task.notes ? task.notes : '';
-    // then add it to import-task-list
-    document.querySelector('.imported-task-list').appendChild(template);
+    taskapi.listTaskLists();
 }
 
 function switchAccounts() {
-    if (isAuthorized) {
-        logout();
+    if (taskapi.authorized()) {
+        taskapi.logout();
     }
-    importTasks();
+    taskapi.login();
 }
 
 //// Helper Functions ////
