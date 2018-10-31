@@ -29,12 +29,22 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // initialize Google OAuth2 services
     taskapi.setTaskHandler(function addTaskToDisplay(task) {
         // instantiate template and use task to populate it
+        let importList = document.querySelector('.imported-task-list');
         let template = factory.importedTask();
         template.querySelector('#list').value = task.listName;
         template.querySelector('#task').value = task.taskName;
         template.querySelector('#description').value = task.notes ? task.notes : '';
+        // set eventListeners
+        template.querySelector('#addToTaskList').addEventListener('click', e => {
+            let newTask = addTask();
+            newTask.querySelector('.task-label>input').value = `[${task.listName}] ${task.taskName}`;
+            importList.removeChild(template);
+        });
+        template.querySelector('#removeFromImportList').addEventListener('click', e => {
+            importList.removeChild(template);
+        });
         // then add it to import-task-list
-        document.querySelector('.imported-task-list').appendChild(template);
+        importList.appendChild(template);
     });
     taskapi.setSignInHandler(function (signedIn) {
         if (signedIn) {
@@ -88,7 +98,8 @@ function addTask() {
     // add to task list
     taskList.appendChild(task);
     // first input
-    task.children.item(0).children.item(0).focus()
+    task.children.item(0).children.item(0).focus();
+    return task;
 }
 
 function createDeleteTaskHandler(task) {

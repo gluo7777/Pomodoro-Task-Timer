@@ -9,27 +9,35 @@ While I'm not completely new to front end concepts, I want to break down the dev
 
 # Action Items
 - [X] Do some research
-- [ ] Determine minimum requirements
-- [ ] Create a mock up of minimum UI
-- [ ] Create components for each requirement
+- [x] Determine minimum requirements
+- [x] Create a mock up of minimum UI
+- [x] Create components for each requirement
  - [X] Time
-- [ ] Finish this
+- [ ] Define a set of consistent terminology for UI components
 
 # Features
 - [x] Timer hh:mm:ss
 - [x] Time cards
 - [x] Buttons: Add new card, Select cards, Delete cards
-- [ ] Import tasks using Google Task API and Oauth2.0
+- [x] Import tasks using Google Task API and Oauth2.0
+- [ ] Delete Import tasks; Add imported tasks to timer list
 - [ ] Sort Tasks - Can re-import on sorting
 - [x] Buttons to reposition instead of dragging
 - [ ] Add [snackbar](https://www.w3schools.com/howto/howto_js_snackbar.asp)
 - [ ] Save certain info in cookies
+    - youtube video
+    - previous timers
 - [ ] Add horizontal tabs to config panel for different settings (e.g. video player, google tasks sync)
     - [ ] Above tabs should hide/open their respective panels
 - [ ] Convert to use modules
+- [ ] Add Presets (e.g. break~20min, exerciser~15min) - save these settings to cookies
+- [ ] Create Settings page
+    - Default time
+    - add to cookies
 
 # Defects
-|   Name                                    |   Fixed       |
-|   :---                                    |   :-----      |
-|`isAuthorized` is not set                  |               |
-|YouTube video not playing in background    |               |
+- [x] `isAuthorized` is not set
+- [ ] YouTube video not playing in background
+- [ ] title not reset to default when timer stopped or deleted
+- [ ] best practices
+    - [ ] convert all var to const -> let
