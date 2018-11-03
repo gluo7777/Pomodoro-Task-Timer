@@ -1,6 +1,6 @@
 'use strict';
 // dom
-var taskList, title, factory, video;
+var taskList, title, video;
 var config;
 // regex
 var numbers = /^\d+$/;
@@ -16,28 +16,21 @@ document.addEventListener('DOMContentLoaded', function (event) {
     html = page.loadDomElements();
     taskList = html.timer.list;
     title = html.title;
-    // load templates into DOM
-    let template = document.querySelector('.task-template').content;
-    factory = {
-        task: function () { return template.querySelector('.task').cloneNode(true); },
-        importedTask: function () { return template.querySelector('.imported-task').cloneNode(true); }
-    }
     // initialize conig panel tabs
-    document.querySelector('#open-video-panel').addEventListener('click', (e) => displayTab('video-panel'));
-    document.querySelector('#open-imported-task-panel').addEventListener('click', (e) => displayTab('imported-task-panel'));
-    // initialize importList
-    let importList = document.querySelector('.imported-task-list');
-    // initialize task list selector
-    let selectList = document.querySelector('#select-task-list');
+    let config = html.config;
+    config.tab.video.addEventListener('click', (e) => displayTab('video-panel'));
+    config.tab.import.addEventListener('click', (e) => displayTab('imported-task-panel'));
+    let importList = config.import.list;
+    let selectList = config.import.select;
     selectList.addEventListener('change', event => {
         // get name of selected option
         let listId = event.target.selectedOptions[0].getAttribute('data-task-list-id');
         // hide unhidden tasks
-        for (let task of importList.querySelectorAll('.imported-task.active-task')) {
+        for (let task of config.import.list.querySelectorAll('.imported-task.active-task')) {
             task.classList.remove('active-task');
         }
         // unhide tasks in selected list
-        for (let task of importList.querySelectorAll(`.imported-task[data-task-list-id=${listId}]`)) {
+        for (let task of config.import.list.querySelectorAll(`.imported-task[data-task-list-id=${listId}]`)) {
             task.classList.add('active-task');
         }
     });
@@ -114,11 +107,10 @@ function displayTab(panelName) {
  * data-task-id (auto-generated) - position of item in list
  */
 function addTask() {
-    let taskId = taskList.childElementCount;
-    let task = factory.task();
-    task.setAttribute("data-task-id", String(taskId));
+    let task = factory.timerTask();
+    task.setTaskId(taskList.childElementCount);
     // add validation handlers
-    let lst = task.querySelectorAll('.time-display>input');
+    let lst = task.getTimeInputs();
     for (let i = 0; i < lst.length; i++) {
         lst[i].addEventListener('keydown', validate);
     }
@@ -126,9 +118,9 @@ function addTask() {
     createDeleteTaskHandler(task);
     createMovementHandlers(task);
     // add to task list
-    taskList.appendChild(task);
+    html.timer.list.appendChild(task);
     // first input
-    task.children.item(0).children.item(0).focus();
+    task.hours.focus();
     return task;
 }
 
@@ -190,15 +182,16 @@ function reset() {
 
 //// Import Panel ////
 function importTasks() {
+    let importPanel = html.config.import;
     // reset select list
-    let selectList = document.querySelector('#select-task-list');
+    let selectList = importPanel.select;
     while (selectList.childElementCount > 0) {
         selectList.removeChild(selectList.firstChild);
     }
     // reset list of imported tasks
-    let importPanel = document.querySelector('.imported-task-list');
-    while (importPanel.childElementCount > 0) {
-        importPanel.removeChild(importPanel.firstChild);
+    let importList = importPanel.list;
+    while (importList.childElementCount > 0) {
+        importList.removeChild(importList.firstChild);
     }
     if (!taskapi.authorized()) {
         taskapi.login();
@@ -215,16 +208,6 @@ function switchAccounts() {
 }
 
 //// Helper Functions ////
-function getCurrentTask() {
-    let task = taskList.querySelector(".task");
-    return {
-        task: task,
-        hour: document.querySelector(".hours"),
-        minute: document.querySelector(".minutes"),
-        second: document.querySelector(".seconds"),
-        label: document.querySelector(".task-label>input")
-    };
-}
 
 function getValue(field) {
     let result = parseInt(field);
@@ -242,7 +225,7 @@ function validate(event) {
 }
 
 function setTime(h, m, s) {
-    let task = getCurrentTask();
+    let task = html.timer.list.getCurrentTask();
     if (task !== null) {
         task.hour.value = xx(h);
         task.minute.value = xx(m);
@@ -252,11 +235,11 @@ function setTime(h, m, s) {
 }
 
 function timerRunning() {
-    return getCurrentTask().label.disabled;
+    return html.timer.list.getCurrentTask().label.disabled;
 }
 
 function disableInputs(disabled) {
-    let task = getCurrentTask();
+    let task = html.timer.list.getCurrentTask();
     if (task !== null) {
         task.hour.disabled = disabled;
         task.minute.disabled = disabled;
