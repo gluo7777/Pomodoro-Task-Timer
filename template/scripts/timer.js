@@ -8,15 +8,14 @@ var numbers = /^\d+$/;
 var handler = null; // keeps track of running handler
 var x = 0; // keeps track of total seconds
 
+let html;
+
 // wait for DOM to register listeners
 document.addEventListener('DOMContentLoaded', function (event) {
     // Global references to DOM elements
-    taskList = document.querySelector(".task-list");
-    title = document.querySelector('title');
-    video = {
-        input: document.querySelector('#video-panel>*>input'),
-        player: document.querySelector('#video-panel>.video')
-    };
+    html = page.loadDomElements();
+    taskList = html.timer.list;
+    title = html.title;
     // load templates into DOM
     let template = document.querySelector('.task-template').content;
     factory = {
@@ -272,6 +271,7 @@ function xx(num) {
 
 let pattern = /.*v=(\w+).*/;
 function playVideoFromUrl() {
+    let video = html.config.video;
     let url = video.input.value;
     let videoId = url !== '' ? url.match(pattern)[1] : null;
     let embeddedUrl = videoId ? `//www.youtube.com/embed/${videoId}?rel=0&autoplay=1` : null;
@@ -281,5 +281,5 @@ function playVideoFromUrl() {
 }
 
 function stopVideo() {
-    video.player.setAttribute('src', 'about:blank');
+    html.config.video.player.setAttribute('src', 'about:blank');
 }
