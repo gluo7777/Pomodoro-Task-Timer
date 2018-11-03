@@ -17,6 +17,13 @@ var taskapi = (function () {
     let handler = {
         /**
          * Required.
+         * @param {*} taskList 
+         */
+        list: function (taskList) {
+            throw `${handler.task} is not defined.`;
+        },
+        /**
+         * Required.
          * @param {*} task 
          */
         task: function (task) {
@@ -67,6 +74,9 @@ var taskapi = (function () {
     // expose methods for task back end
     return {
         // setters for handlers
+        setListHandler: function (h) {
+            handler.list = h;
+        },
         setTaskHandler: function (h) {
             handler.task = h;
         },
@@ -105,6 +115,7 @@ var taskapi = (function () {
                         if (taskLists && taskLists.length > 0) {
                             for (var i = 0; i < taskLists.length; i++) {
                                 var taskList = taskLists[i];
+                                handler.list(taskList);
                                 listTasksForList(taskLists[i]);
                             }
                         } else {

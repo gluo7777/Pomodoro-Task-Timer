@@ -34,6 +34,7 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [ ] Create Settings page
     - Default time
     - add to cookies
+- [ ] Suggest refactoring html and css
 
 # Defects
 - [x] `isAuthorized` is not set

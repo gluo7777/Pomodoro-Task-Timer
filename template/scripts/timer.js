@@ -26,13 +26,40 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // initialize conig panel tabs
     document.querySelector('#open-video-panel').addEventListener('click', (e) => displayTab('video-panel'));
     document.querySelector('#open-imported-task-panel').addEventListener('click', (e) => displayTab('imported-task-panel'));
-    // initialize Google OAuth2 services
+    // initialize importList
+    let importList = document.querySelector('.imported-task-list');
+    // initialize task list selector
+    let selectList = document.querySelector('#select-task-list');
+    selectList.addEventListener('change', event => {
+        // get name of selected option
+        let listId = event.target.selectedOptions[0].getAttribute('data-task-list-id');
+        // hide unhidden tasks
+        for (let task of importList.querySelectorAll('.imported-task.active-task')) {
+            task.classList.remove('active-task');
+        }
+        // unhide tasks in selected list
+        for (let task of importList.querySelectorAll(`.imported-task[data-task-list-id=${listId}]`)) {
+            task.classList.add('active-task');
+        }
+    });
+    // initialize Google OAuth2 services and set handlers
+    //// add handling of each list name
+    taskapi.setListHandler(function (list) {
+        let option = document.createElement('option');
+        option.value = list.title;
+        option.innerText = list.title;
+        option.setAttribute('data-task-list-id', list.id);
+        selectList.options.add(option);
+    });
+    //// add handling of each task
     taskapi.setTaskHandler(function addTaskToDisplay(task) {
+        // add task list to select if not already there
         // instantiate template and use task to populate it
-        let importList = document.querySelector('.imported-task-list');
         let template = factory.importedTask();
         template.querySelector('#list').value = task.listName;
+        template.setAttribute('data-task-list-id', task.listId);
         template.querySelector('#task').value = task.taskName;
+        template.setAttribute('data-task-id', task.taskId);
         template.querySelector('#description').value = task.notes ? task.notes : '';
         // set eventListeners
         template.querySelector('#addToTaskList').addEventListener('click', e => {
@@ -43,6 +70,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
         template.querySelector('#removeFromImportList').addEventListener('click', e => {
             importList.removeChild(template);
         });
+        // unhide if list name matches selected list
+        if (task.listId === selectList.selectedOptions[0].getAttribute('data-task-list-id')) {
+            template.classList.add('active-task');
+        }
         // then add it to import-task-list
         importList.appendChild(template);
     });
@@ -160,9 +191,16 @@ function reset() {
 
 //// Import Panel ////
 function importTasks() {
-    // reset panel by replacing it with a shallow copy
+    // reset select list
+    let selectList = document.querySelector('#select-task-list');
+    while (selectList.childElementCount > 0) {
+        selectList.removeChild(selectList.firstChild);
+    }
+    // reset list of imported tasks
     let importPanel = document.querySelector('.imported-task-list');
-    document.querySelector('#imported-task-panel').replaceChild(importPanel.cloneNode(false), importPanel);
+    while (importPanel.childElementCount > 0) {
+        importPanel.removeChild(importPanel.firstChild);
+    }
     if (!taskapi.authorized()) {
         taskapi.login();
     }
