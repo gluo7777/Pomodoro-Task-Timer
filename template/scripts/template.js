@@ -20,7 +20,7 @@ let factory = (function () {
                 return [temp.hours, temp.minutes, temp.seconds];
             }
             temp.setTaskId = function (taskId) {
-                temp.setAttribute('data-task-id', String(taskId));
+                temp.setAttribute(TASK_ID, String(taskId));
             };
             return temp;
         },
