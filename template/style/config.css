@@ -1,11 +1,3 @@
-/* #config-column{
-    display: flex;
-    flex-direction: column;
-    font-size: 1em;
-    border: black solid 1px;
-    padding: 1px;
-} */
-
 /* Style the tab */
 .tab {
     overflow: hidden;
@@ -57,12 +49,6 @@
     background-color: aqua;
 }
 
-/* #imported-task-list{
-    background-color: gray;
-    overflow: hidden;
-    overflow-y: scroll;
-    height: 75vh;
-} */
 .imported-task{
     display: none;
 }

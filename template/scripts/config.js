@@ -68,6 +68,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
     importControl.sync.addEventListener('click', importTasks);
     importControl.switch.addEventListener('click', switchAccounts);
     importControl.select.addEventListener('click', event => console.log('This has not been implemented yet.'));
+
+    // add listeners for video panel
+    const VIDEO_URL_KEY = 'youtube_video';
+    config.video.input.addEventListener('focusout', e => {
+        storage.saveToStorage(VIDEO_URL_KEY, e.target.value);
+    });
+
+    // retrieve from local storage
+    config.video.input.value = storage.getFromStorage(VIDEO_URL_KEY);
 });
 
 /**
