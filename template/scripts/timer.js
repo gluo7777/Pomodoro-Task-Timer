@@ -64,7 +64,7 @@ function createMovementHandlers(task) {
 function start() {
     stop();
     stopVideo();
-    let task = getCurrentTask();
+    let task = html.timer.list.getFirstTask();
     x = getValue(task.second.value) + getValue(task.minute.value) * 60 + getValue(task.hour.value) * 3600;
     if (x > 0) {
         // disable inputs
@@ -114,7 +114,7 @@ function validate(event) {
 }
 
 function setTime(h, m, s) {
-    let task = html.timer.list.getCurrentTask();
+    let task = html.timer.list.getFirstTask();
     if (task !== null) {
         task.hour.value = xx(h);
         task.minute.value = xx(m);
@@ -124,11 +124,11 @@ function setTime(h, m, s) {
 }
 
 function timerRunning() {
-    return html.timer.list.getCurrentTask().label.disabled;
+    return html.timer.list.getFirstTask().label.disabled;
 }
 
 function disableInputs(disabled) {
-    let task = html.timer.list.getCurrentTask();
+    let task = html.timer.list.getFirstTask();
     if (task !== null) {
         task.hour.disabled = disabled;
         task.minute.disabled = disabled;

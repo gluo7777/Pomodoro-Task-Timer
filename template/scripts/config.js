@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
 function displayTab(panelName) {
     // reset other panels
     document.querySelector('.tablinks.active').classList.remove('active');
-    document.querySelector('.config-column>.panel.active').classList.remove('active');
+    document.querySelector('.panel.active').classList.remove('active');
     // activate target panel
     document.querySelector(`#open-${panelName}`).classList.add('active');
     document.querySelector(`#${panelName}`).classList.add('active');

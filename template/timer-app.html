@@ -9,11 +9,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- <link rel="stylesheet" href="style/task-api.css"> -->
     <link rel="stylesheet" href="style/timer.css">
+    <link rel="stylesheet" href="style/config.css">
 </head>
 
 <body>
     <main>
-        <div class="timer-column">
+        <div id="timer-column" class="column">
             <div class="control-panel">
                 <!-- This should toggle between Resume/Pause -->
                 <button id="start">Start</button>
@@ -22,10 +23,10 @@
                 <button id="select">Select</button>
                 <button id="addTask">New</button>
             </div>
-            <div class="task-list">
+            <div id="timer-list" class="list">
             </div>
         </div>
-        <div class="config-column">
+        <div id="config-column" class="column">
             <div class="tab">
                 <button class="tablinks active" id="open-video-panel">Video</button>
                 <button class="tablinks" id="open-imported-task-panel">Import</button>
@@ -47,7 +48,7 @@
                     <select name="select-task-list" id="select-task-list">
                     </select>
                 </div>
-                <div class="imported-task-list">
+                <div id="imported-task-list" class="list">
                 </div>
             </div>
         </div>
