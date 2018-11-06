@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // initialize Google OAuth2 services and set handlers
     //// add handling of each list name
     taskapi.setListHandler(function (list) {
-        let option = document.createElement('option');
+        const option = document.createElement('option');
         option.value = list.title;
         option.innerText = list.title;
         setListId(option, list.id);
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     taskapi.setTaskHandler(function addTaskToDisplay(task) {
         // add task list to select if not already there
         // instantiate template and use task to populate it
-        let template = factory.importedTask();
+        const template = factory.importedTask();
         template.list.value = task.listName;
         setListId(template, task.listId);
         template.task.value = task.taskName;
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         template.description.value = task.notes ? task.notes : '';
         // set eventListeners
         template.move.addEventListener('click', e => {
-            let newTask = addTask();
+            const newTask = addTask();
             newTask.label.value = `[${task.listName}] ${task.taskName}`;
             config.import.list.removeChild(template);
         });
@@ -86,14 +86,14 @@ function displayTab(panelName) {
 
 //// Import Panel ////
 function importTasks() {
-    let importPanel = config.import;
+    const importPanel = config.import;
     // reset select list
-    let selectList = importPanel.select;
+    const selectList = importPanel.select;
     while (selectList.childElementCount > 0) {
         selectList.removeChild(selectList.firstChild);
     }
     // reset list of imported tasks
-    let importList = importPanel.list;
+    const importList = importPanel.list;
     while (importList.childElementCount > 0) {
         importList.removeChild(importList.firstChild);
     }
@@ -111,12 +111,12 @@ function switchAccounts() {
     taskapi.login();
 }
 
-let pattern = /.*v=(\w+).*/;
+const pattern = /.*v=(\w+).*/;
 function playVideoFromUrl() {
-    let video = config.video;
-    let url = video.input.value;
-    let videoId = url !== '' ? url.match(pattern)[1] : null;
-    let embeddedUrl = videoId ? `//www.youtube.com/embed/${videoId}?rel=0&autoplay=1` : null;
+    const video = config.video;
+    const url = video.input.value;
+    const videoId = url !== '' ? url.match(pattern)[1] : null;
+    const embeddedUrl = videoId ? `//www.youtube.com/embed/${videoId}?rel=0&autoplay=1` : null;
     if (embeddedUrl) {
         video.player.setAttribute('src', embeddedUrl);
     }

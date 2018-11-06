@@ -1,11 +1,11 @@
-let factory = (function () {
+const factory = (function () {
     // templates
-    let template = document.querySelector('.task-template').content;
+    const template = document.querySelector('#task-template').content;
     template.timerTask = template.querySelector('.task');
     template.importedTask = template.querySelector('.imported-task');
     return {
         timerTask: function () {
-            let temp = template.timerTask.cloneNode(true);
+            const temp = template.timerTask.cloneNode(true);
             // set helper attributes
             temp.hours = temp.querySelector('.hours');
             temp.minutes = temp.querySelector('.minutes');
@@ -25,7 +25,7 @@ let factory = (function () {
             return temp;
         },
         importedTask: function () {
-            let temp = template.importedTask.cloneNode(true);
+            const temp = template.importedTask.cloneNode(true);
             // set helper attributes
             temp.list = temp.querySelector('#list');
             temp.task = temp.querySelector('#task');

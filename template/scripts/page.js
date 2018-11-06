@@ -6,7 +6,7 @@
 
 
 // Page Module
-let page = (function (params) {
+const page = (function (params) {
 
     // Initialize timer column
     const timer = document.querySelector('#timer-column');
