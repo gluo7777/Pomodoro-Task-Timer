@@ -1,0 +1,38 @@
+{
+    "kind": "tasks#tasks",
+    "etag": "\"FhCqMAsBrrKDkDLKevwtJykQ9I8/LTEyMDE3NDU5Mzk\"",
+    "items": [
+        {
+            "kind": "tasks#task",
+            "id": "MTgzMDk4NTA5NTI5MzIxODA1MTA6MDo5NTU0NTQ1NjM3MTAyNDI2",
+            "etag": "\"FhCqMAsBrrKDkDLKevwtJykQ9I8/OTE4NjcwNjc3\"",
+            "title": "Third Task w/ due date",
+            "updated": "2018-10-26T22:25:37.000Z",
+            "selfLink": "https://www.googleapis.com/tasks/v1/lists/MTgzMDk4NTA5NTI5MzIxODA1MTA6MDow/tasks/MTgzMDk4NTA5NTI5MzIxODA1MTA6MDo5NTU0NTQ1NjM3MTAyNDI2",
+            "position": "00000000001234803096",
+            "status": "needsAction",
+            "due": "2018-10-31T00:00:00.000Z"
+        },
+        {
+            "kind": "tasks#task",
+            "id": "MTgzMDk4NTA5NTI5MzIxODA1MTA6MDo4OTI0NjY5MDIyMTgxMTUz",
+            "etag": "\"FhCqMAsBrrKDkDLKevwtJykQ9I8/LTE5NzUyNzk3NDc\"",
+            "title": "Second Task",
+            "updated": "2018-10-26T22:25:22.000Z",
+            "selfLink": "https://www.googleapis.com/tasks/v1/lists/MTgzMDk4NTA5NTI5MzIxODA1MTA6MDow/tasks/MTgzMDk4NTA5NTI5MzIxODA1MTA6MDo4OTI0NjY5MDIyMTgxMTUz",
+            "position": "00000000001610612734",
+            "notes": "Has Description",
+            "status": "needsAction"
+        },
+        {
+            "kind": "tasks#task",
+            "id": "MTgzMDk4NTA5NTI5MzIxODA1MTA6MDoxMTIzNzQxMzQwMjI0OTQ3",
+            "etag": "\"FhCqMAsBrrKDkDLKevwtJykQ9I8/LTE2NzMxMTIxMzU\"",
+            "title": "My First Task",
+            "updated": "2018-10-26T22:25:12.000Z",
+            "selfLink": "https://www.googleapis.com/tasks/v1/lists/MTgzMDk4NTA5NTI5MzIxODA1MTA6MDow/tasks/MTgzMDk4NTA5NTI5MzIxODA1MTA6MDoxMTIzNzQxMzQwMjI0OTQ3",
+            "position": "00000000002147483647",
+            "status": "needsAction"
+        }
+    ]
+}

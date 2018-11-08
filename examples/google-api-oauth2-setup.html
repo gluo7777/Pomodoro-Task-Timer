@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Google Tasks API Quickstart</title>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .imported-task-list{
+            display: flex;
+            flex-direction: column;
+            width: 18%;
+            background-color: gray;
+        }
+        .imported-task{
+            display: flex;
+            margin: 5px;
+            padding: 5px;
+            border: rgb(177, 205, 249) ridge 1px;
+            border-radius: 10px;
+            background-color: rgb(234, 242, 255);
+        }
+        .imported-task-body{
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Google Tasks API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize_button">Sign In</button>
+    <button id="signout_button">Sign Out</button>
+    <button id="show_tasks">List Tasks</button>
+
+    <!-- Display Tasks -->
+    <div class="imported-task-list">
+        <!-- <div class="imported-task">
+            <button class="material-icons">arrow_left</button>
+            <div class="imported-task-body">
+                <textarea name="" id="title" cols="30" rows="3" placeholder="Task Body" disabled></textarea>
+                <textarea name="" id="description" cols="30" rows="10" placeholder="Task Body" disabled></textarea>
+            </div>
+            <button class="material-icons">delete</button>
+        </div> -->
+    </div>
+
+    <template>
+        <div class="imported-task">
+            <button class="material-icons">arrow_left</button>
+            <div class="imported-task-body">
+                <textarea name="" id="title" cols="30" rows="3" placeholder="Task Body" disabled></textarea>
+                <textarea name="" id="description" cols="30" rows="10" placeholder="Task Body" disabled></textarea>
+            </div>
+            <button class="material-icons">delete</button>
+        </div>
+    </template>
+
+    <script type="text/javascript">
+        // configure oauth client
+        // gapi.client - apiKey, clientId, scope (permissions displayed to users), discoveryDocs(list of urls that describe API-interfaces)
+        // https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest
+        // gapi.auth2
+        // flow: redirect to oauth server -> redirect back to this app w/ access token -> validate server's access token -> stores access token -> include access token in subsequent api calls
+
+        // expose auth object
+        var gauth;
+        var isAuthorized;
+        var currentApiRequest;
+
+        // every time page loads, re-initialize oauth client
+        document.addEventListener('DOMContentLoaded', function name() {
+            gapi.load('client:auth2', function name() {
+                gapi.client.init({
+                    'apiKey': 'AIzaSyCP_mc3deMxo-efwwE_5bQK2ONnC6UbFfU',
+                    'clientId': '425304648954-b38cldabmopkds1loegli1tlmb658st1.apps.googleusercontent.com',
+                    'scope': 'https://www.googleapis.com/auth/tasks',
+                    'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest']
+                }).then(function () {
+                    console.log('client initialized..');
+                    gauth = gapi.auth2.getAuthInstance();
+                    isAuthorized = gauth ? true : false;
+                    gauth.isSignedIn.listen(notifySigninStatusChange);
+                    // page
+                    document.querySelector('#authorize_button').addEventListener('click', function name() {
+                        gauth.signIn();
+                    });
+                    document.querySelector('#signout_button').addEventListener('click', function name() {
+                        gauth.disconnect();
+                    });
+                    document.querySelector('#show_tasks').addEventListener('click', function name() {
+                        listTaskLists();
+                    });
+                });
+            });
+        });
+
+        // init client
+        function notifySigninStatusChange(params) {
+            console.log('sign in status changed: %s', params);
+            isAuthorized = params;
+        }
+
+        /**
+       * Print task lists.
+       */
+        function listTaskLists() {
+            if (isAuthorized) {
+                gapi.client.tasks.tasklists.list({
+                    'maxResults': 99
+                }).then(function (response) {
+                    console.log('Task Lists:');
+                    var taskLists = response.result.items;
+                    if (taskLists && taskLists.length > 0) {
+                        for (var i = 0; i < taskLists.length; i++) {
+                            var taskList = taskLists[i];
+                            console.log(taskList.title + ' (' + taskList.id + ')');
+                            console.log(`Listing tasks for ${taskList.id}:`);
+                            listTasksForList(taskList.id);
+                        }
+                    } else {
+                        console.log('No task lists found.');
+                    }
+                });
+            }
+        }
+
+        function listTasksForList(listId) {
+            let requestParams = {
+                'tasklist': listId
+            };
+            gapi.client.tasks.tasks.list(requestParams).then(
+                function handleResponse(response) {
+                    var tasks = response.result.items;
+                    if (tasks && tasks.length > 0) {
+                        for (var i = 0; i < tasks.length; i++) {
+                            let task = tasks[i];
+                            console.log(`Title: ${task.title}`
+                                + `\nDescription: ${task.notes ? task.notes : ''}`
+                                + `\nStatus: ${task.status === 'needsAction' ? 'active' : 'completed'}`
+                                + `\nId: ${task.id}`
+                            );
+                        }
+                    }
+
+                }
+            );
+        }
+
+    </script>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+</body>
+
+</html>
