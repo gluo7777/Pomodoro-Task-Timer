@@ -71,7 +71,7 @@
 /* Drop down menu in imported tasks panel */
 .styled-select {
     /* background graphic manipulation */
-    background: url(styled-dropdown.png) no-repeat 96% 0;
+    background: url(../images/styled-dropdown.png) no-repeat 96% 0;
     background-color: rgb(141, 141, 141);
     height: 29px;
     overflow: hidden;

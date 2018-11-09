@@ -37,6 +37,7 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [ ] Suggest refactoring html and css
     - move all dom related logic and references into one page and rename main page to controller
 - [ ] Option to close a timer and add remaining time to next timer
+- [ ] Move top and bottom arrows
 
 # Defects
 - [x] `isAuthorized` is not set
