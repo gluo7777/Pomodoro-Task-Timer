@@ -1,9 +1,12 @@
 // For config-panel interactivity
 
-let config;
+import {saveToStorage,getFromStorage} from './utility/storage.js';
+import {config, DATA} from './utility/page.js';
+import {importedTask} from './utility/template.js';
+import * as timerapi from './timer.js';
+import * as taskapi from './api/task-api.js';
 
-document.addEventListener('DOMContentLoaded', function (event) {
-    config = page.loadDomElements().config;
+document.addEventListener('DOMContentLoaded', function () {
     // initialize conig panel tabs
     config.tab.video.addEventListener('click', (e) => displayTab('video-panel'));
     config.tab.import.addEventListener('click', (e) => displayTab('imported-task-panel'));
@@ -34,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     taskapi.setTaskHandler(function addTaskToDisplay(task) {
         // add task list to select if not already there
         // instantiate template and use task to populate it
-        const template = factory.importedTask();
+        const template = importedTask();
         template.list.value = task.listName;
         setListId(template, task.listId);
         template.task.value = task.taskName;
@@ -42,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
         template.description.value = task.notes ? task.notes : '';
         // set eventListeners
         template.move.addEventListener('click', e => {
-            const newTask = addTask();
+            const newTask = timerapi.addTask();
             newTask.label.value = `[${task.listName}] ${task.taskName}`;
             config.import.list.removeChild(template);
         });
@@ -72,11 +75,11 @@ document.addEventListener('DOMContentLoaded', function (event) {
     // add listeners for video panel
     const VIDEO_URL_KEY = 'youtube_video';
     config.video.input.addEventListener('focusout', e => {
-        storage.saveToStorage(VIDEO_URL_KEY, e.target.value);
+        saveToStorage(VIDEO_URL_KEY, e.target.value);
     });
 
     // retrieve from local storage
-    config.video.input.value = storage.getFromStorage(VIDEO_URL_KEY);
+    config.video.input.value = getFromStorage(VIDEO_URL_KEY);
 });
 
 /**
@@ -120,37 +123,18 @@ function switchAccounts() {
     taskapi.login();
 }
 
-const pattern = /.*v=(\w+).*/;
-function playVideoFromUrl() {
-    const video = config.video;
-    const url = video.input.value;
-    const videoId = url !== '' ? url.match(pattern)[1] : null;
-    const embeddedUrl = videoId ? `//www.youtube.com/embed/${videoId}?rel=0&autoplay=1` : null;
-    if (embeddedUrl) {
-        video.player.setAttribute('src', embeddedUrl);
-    }
-}
-
-function stopVideo() {
-    config.video.player.setAttribute('src', 'about:blank');
-}
-
-// Attributes
-const LIST_ID = 'data-task-list-id';
-const TASK_ID = 'data-task-id';
-
 function setListId(node, listId) {
-    node.setAttribute(LIST_ID, String(listId));
+    node.setAttribute(DATA.LIST_ID, String(listId));
 }
 
 function setTaskId(node, taskId) {
-    node.setAttribute(TASK_ID, String(taskId));
+    node.setAttribute(DATA.TASK_ID, String(taskId));
 }
 
 function getListId(node) {
-    return node.getAttribute(LIST_ID);
+    return node.getAttribute(DATA.LIST_ID);
 }
 
 function getTaskId(node) {
-    return node.getAttribute(TASK_ID);
+    return node.getAttribute(DATA.TASK_ID);
 }

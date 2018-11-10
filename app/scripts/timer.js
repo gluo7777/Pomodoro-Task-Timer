@@ -2,14 +2,12 @@
 // internal logic
 let handler = null; // keeps track of running handler
 let x = 0; // keeps track of total seconds
-let html;
+import {timer,config,title  } from './utility/page.js';
+import {timerTask} from './utility/template.js';
 
-// wait for DOM to register listeners
 document.addEventListener('DOMContentLoaded', function (event) {
-    // Global references to DOM elements
-    html = page.loadDomElements();
-    // add events for Task Panel buttons
-    const timerControl = html.timer.control;
+    // add events for timer control buttons
+    const timerControl = timer.control;
     timerControl.start.addEventListener('click', start);
     timerControl.stop.addEventListener('click', stop);
     timerControl.reset.addEventListener('click', reset);
@@ -21,9 +19,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
  * When adding task item ui, just record the task reference # (as meta property). 
  * data-task-id (auto-generated) - position of item in list
  */
-function addTask() {
-    let task = factory.timerTask();
-    task.setTaskId(html.timer.list.childElementCount);
+export function addTask() {
+    let task = timerTask();
+    task.setTaskId(timer.list.childElementCount);
     // add validation handlers
     let lst = task.getTimeInputs();
     for (let i = 0; i < lst.length; i++) {
@@ -33,7 +31,7 @@ function addTask() {
     createDeleteTaskHandler(task);
     createMovementHandlers(task);
     // add to task list
-    html.timer.list.appendChild(task);
+    timer.list.appendChild(task);
     // first input
     task.hours.focus();
     return task;
@@ -48,7 +46,7 @@ function createDeleteTaskHandler(task) {
 }
 
 function createMovementHandlers(task) {
-    const taskList = html.timer.list;
+    const taskList = timer.list;
     task.querySelector('.up.btn').addEventListener('click', function () {
         if (!timerRunning() && taskList.firstChild !== task) {
             taskList.insertBefore(task, task.previousSibling);
@@ -64,7 +62,7 @@ function createMovementHandlers(task) {
 function start() {
     stop();
     stopVideo();
-    let task = html.timer.list.getFirstTask();
+    let task = timer.list.getFirstTask();
     x = getValue(task.second.value) + getValue(task.minute.value) * 60 + getValue(task.hour.value) * 3600;
     if (x > 0) {
         // disable inputs
@@ -114,21 +112,21 @@ function validate(event) {
 }
 
 function setTime(h, m, s) {
-    let task = html.timer.list.getFirstTask();
+    let task = timer.list.getFirstTask();
     if (task !== null) {
         task.hour.value = xx(h);
         task.minute.value = xx(m);
         task.second.value = xx(s);
-        html.title.innerText = `${task.hour.value}:${task.minute.value}:${task.second.value}`;
+        title.innerText = `${task.hour.value}:${task.minute.value}:${task.second.value}`;
     }
 }
 
 function timerRunning() {
-    return html.timer.list.getFirstTask().label.disabled;
+    return timer.list.getFirstTask().label.disabled;
 }
 
 function disableInputs(disabled) {
-    let task = html.timer.list.getFirstTask();
+    let task = timer.list.getFirstTask();
     if (task !== null) {
         task.hour.disabled = disabled;
         task.minute.disabled = disabled;
@@ -139,4 +137,19 @@ function disableInputs(disabled) {
 
 function xx(num) {
     return String(num).padStart(2, '0');
+}
+
+const pattern = /.*v=(\w+).*/;
+function playVideoFromUrl() {
+    const video = config.video;
+    const url = video.input.value;
+    const videoId = url !== '' ? url.match(pattern)[1] : null;
+    const embeddedUrl = videoId ? `//www.youtube.com/embed/${videoId}?rel=0&autoplay=1` : null;
+    if (embeddedUrl) {
+        video.player.setAttribute('src', embeddedUrl);
+    }
+}
+
+function stopVideo() {
+    config.video.player.setAttribute('src', 'about:blank');
 }
