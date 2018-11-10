@@ -38,7 +38,7 @@ While I'm not completely new to front end concepts, I want to break down the dev
     - move all dom related logic and references into one page and rename main page to controller
 - [ ] Option to close a timer and add remaining time to next timer
 - [ ] Move top and bottom arrows
-- [ ] Set up node.js server
+- [x] Set up node.js server
 - [ ] Add templating to customize error page
 
 # Defects
