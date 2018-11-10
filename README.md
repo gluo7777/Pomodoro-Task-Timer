@@ -13,28 +13,28 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [x] Create a mock up of minimum UI
 - [x] Create components for each requirement
  - [X] Time
-- [ ] Define a set of consistent terminology for UI components
+- [x] Define a set of consistent terminology for UI components
 
 # Features
 - [x] Timer hh:mm:ss
 - [x] Time cards
 - [x] Buttons: Add new card, Select cards, Delete cards
 - [x] Import tasks using Google Task API and Oauth2.0
-- [ ] Delete Import tasks; Add imported tasks to timer list
+- [x] Delete Import tasks; Add imported tasks to timer list
 - [ ] Sort Tasks - Can re-import on sorting
 - [x] Buttons to reposition instead of dragging
 - [ ] Add [snackbar](https://www.w3schools.com/howto/howto_js_snackbar.asp)
-- [ ] Save certain info in cookies
+- [x] Save certain info in cookies
     - youtube video
     - previous timers
-- [ ] Add horizontal tabs to config panel for different settings (e.g. video player, google tasks sync)
-    - [ ] Above tabs should hide/open their respective panels
-- [ ] Convert to use modules
+- [x] Add horizontal tabs to config panel for different settings (e.g. video player, google tasks sync)
+    - Above tabs should hide/open their respective panels
+- [x] Convert to use modules
 - [ ] Add Presets (e.g. break~20min, exerciser~15min) - save these settings to cookies
 - [ ] Create Settings page
     - Default time
     - add to cookies
-- [ ] Suggest refactoring html and css
+- [x] Suggest refactoring html and css
     - move all dom related logic and references into one page and rename main page to controller
 - [ ] Option to close a timer and add remaining time to next timer
 - [ ] Move top and bottom arrows
@@ -45,5 +45,4 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [x] `isAuthorized` is not set
 - [ ] YouTube video not playing in background
 - [ ] title not reset to default when timer stopped or deleted
-- [ ] best practices
-    - [ ] convert all var to const -> let
+- [x] convert all var to const -> let
