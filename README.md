@@ -30,10 +30,7 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [x] Add horizontal tabs to config panel for different settings (e.g. video player, google tasks sync)
     - Above tabs should hide/open their respective panels
 - [x] Convert to use modules
-- [ ] Add Presets (e.g. break~20min, exerciser~15min) - save these settings to cookies
 - [ ] Create Settings page
-    - Default time
-    - add to cookies
 - [x] Suggest refactoring html and css
     - move all dom related logic and references into one page and rename main page to controller
 - [ ] Option to close a timer and add remaining time to next timer
@@ -41,8 +38,13 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [x] Set up node.js server
 - [ ] Add templating to customize error page
 
+## Settings
+- Add Presets (e.g. break~20min, exerciser~15min) - save these settings to cookies
+- Default time
+- add to cookies
+
 # Defects
 - [x] `isAuthorized` is not set
 - [ ] YouTube video not playing in background
-- [ ] title not reset to default when timer stopped or deleted
+- [x] title not reset to default when timer stopped or deleted
 - [x] convert all var to const -> let

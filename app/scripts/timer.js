@@ -56,6 +56,17 @@ function createMovementHandlers(task) {
             taskList.insertBefore(task.nextSibling, task);
         }
     });
+    task.top.addEventListener('click', e => {
+        if (!timerRunning() && taskList.firstChild !== task) {
+            taskList.insertBefore(task, taskList.firstChild);
+        }
+    });
+    task.bottom.addEventListener('click', e => {
+        if (!timerRunning() && taskList.lastChild !== task) {
+            taskList.insertBefore(task, taskList.lastChild);
+            taskList.insertBefore(taskList.lastChild, task);
+        }
+    });
 }
 
 function start() {

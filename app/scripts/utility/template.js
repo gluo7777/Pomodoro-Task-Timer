@@ -13,9 +13,11 @@ export function timerTask() {
     temp.seconds = temp.querySelector('.seconds');
     temp.label = temp.querySelector('.task-label>input');
     // buttons
+    temp.top = temp.querySelector('.top.btn');
     temp.up = temp.querySelector('.up.btn');
     temp.down = temp.querySelector('.down.btn');
     temp.delete = temp.querySelector('.delete.btn');
+    temp.bottom = temp.querySelector('.bottom.btn');
     // functions
     temp.getTimeInputs = function () {
         return [temp.hours, temp.minutes, temp.seconds];
