@@ -73,13 +73,13 @@ const ALLOWED_PARENTS = ['scripts','assets'];
 
 /**
  * A path is valid if and only if:
- * 1) matches the file regex
+ * 1) matches the file regex: ^(?!.*test.*)(?:\w|\/|-|_)+(\.\w+)?$
  * 2) it's root is in the white listed root directories.
  * Note: This is only for validating nested files (e.g. not index.html, error.html. etc.)
  * @param {*} filePath 
  */
 function isValidPath(filePath) {
-    if(!/^(?:\w|\/|-|_)+(\.\w+)?$/.test(filePath)){
+    if(!/^(?!.*test.*)(?:\w|\/|-|_)+(\.\w+)?$/.test(filePath)){
         return false;
     }
     const root = filePath.split('/')[0];

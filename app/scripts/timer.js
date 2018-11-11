@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
  * data-task-id (auto-generated) - position of item in list
  */
 export function addTask() {
-    let task = timerTask();
+    const task = timerTask();
     task.setTaskId(timer.list.childElementCount);
     // add validation handlers
-    let lst = task.getTimeInputs();
+    const lst = task.getTimeInputs();
     for (let i = 0; i < lst.length; i++) {
         lst[i].addEventListener('keydown', validate);
     }
@@ -38,8 +38,7 @@ export function addTask() {
 }
 
 function createDeleteTaskHandler(task) {
-    let deleteBtn = task.querySelector('.delete.btn');
-    deleteBtn.addEventListener('click', function () {
+    task.delete.addEventListener('click', function () {
         stop();
         task.remove();
     });
@@ -47,12 +46,12 @@ function createDeleteTaskHandler(task) {
 
 function createMovementHandlers(task) {
     const taskList = timer.list;
-    task.querySelector('.up.btn').addEventListener('click', function () {
+    task.up.addEventListener('click', function () {
         if (!timerRunning() && taskList.firstChild !== task) {
             taskList.insertBefore(task, task.previousSibling);
         }
     });
-    task.querySelector('.down.btn').addEventListener('click', function () {
+    task.down.addEventListener('click', function () {
         if (!timerRunning() && taskList.lastChild !== task) {
             taskList.insertBefore(task.nextSibling, task);
         }
@@ -80,6 +79,7 @@ function start() {
 };
 
 function stop() {
+    title.reset();
     // enable inputs
     disableInputs(false);
     if (handler) {

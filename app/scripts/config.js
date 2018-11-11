@@ -7,22 +7,22 @@ import * as timerapi from './timer.js';
 import * as taskapi from './api/task-api.js';
 
 document.addEventListener('DOMContentLoaded', function () {
-    // initialize conig panel tabs
-    config.tab.video.addEventListener('click', (e) => displayTab('video-panel'));
-    config.tab.import.addEventListener('click', (e) => displayTab('imported-task-panel'));
+    // tab control
+    for(const tab of config.tab.getAllTabs()){
+        tab.addEventListener('click', e => {
+            config.tab.clearActive();
+            config.tab.setActive(e.target);
+        });
+    };
     // initialize list selector
     const selectList = config.import.select;
     selectList.addEventListener('change', event => {
         // get name of selected option
-        const listId = getListId(event.target.selectedOptions[0]);
+        const listId = selectList.getSelected();
         // hide unhidden tasks
-        for (const task of config.import.list.querySelectorAll('.imported-task.active-task')) {
-            task.classList.remove('active-task');
-        }
+        config.import.list.clearActive();
         // unhide tasks in selected list
-        for (const task of config.import.list.querySelectorAll(`.imported-task[data-task-list-id=${listId}]`)) {
-            task.classList.add('active-task');
-        }
+        config.import.list.setActive(listId);
     });
     // initialize Google OAuth2 services and set handlers
     //// add handling of each list name
@@ -81,20 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // retrieve from local storage
     config.video.input.value = getFromStorage(VIDEO_URL_KEY);
 });
-
-/**
- * 
- * @param {tab which triggered this} event 
- * @param {name of panel to open} panelName 
- */
-function displayTab(panelName) {
-    // reset other panels
-    document.querySelector('.tablinks.active').classList.remove('active');
-    document.querySelector('.panel.active').classList.remove('active');
-    // activate target panel
-    document.querySelector(`#open-${panelName}`).classList.add('active');
-    document.querySelector(`#${panelName}`).classList.add('active');
-}
 
 //// Import Panel ////
 function importTasks() {

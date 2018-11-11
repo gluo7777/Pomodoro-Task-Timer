@@ -48,7 +48,7 @@ test('test isValidPath is true', () => {
 
 test('test isValidPath is false', () => {
     const isValidPath = handler.__get__('isValidPath');
-    for(const file of ['modules','modules/handler.js','modules/handler.test.js','main.js']){
+    for(const file of ['modules','modules/handler.js','modules/handler.test.js','main.js','scripts/config.test.js']){
         expect(isValidPath(file)).toBe(false);
     };
 });
