@@ -1,9 +1,0 @@
-{
-    "name": "pomdoro-timer-task-app",
-    "version": "1.0.0-SNAPSHOT",
-    "author": {
-        "name": "William Luo",
-        "email": "gluo7777@gmail.com",
-        "url": "https://github.com/gluo7777/Pomodoro-Task-Timer"
-    }
-}
