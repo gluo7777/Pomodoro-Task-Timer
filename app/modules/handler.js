@@ -106,7 +106,7 @@ function sendFile(res, file, contentType='text/html') {
 
 /**
  * 
- * @param {response to write error page} res 
+ * @param {http.ServerResponse} res 
  */
 function sendError(res,msg='Some msg.') {
     fs.readFile('error.html', (error, page) => {
