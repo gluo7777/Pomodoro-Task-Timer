@@ -17,7 +17,7 @@ const HOST = 'http://localhost';
  * @param {http GET request} req 
  * @param {sends back html or js} res 
  */
-function doGet(req,res) {
+function doGet(req, res) {
     const fullUrl = new URL(req.url, HOST);
     const url = fullUrl.pathname;
     const filePath = url.length >= 2 ? url.substr(1) : url;
@@ -25,10 +25,10 @@ function doGet(req,res) {
     // home page
     if (url === '/' || url === '/home') {
         sendFile(res, 'index.html');
-    }else{
+    } else {
         // determine content type
         const contentType = getContentType(filePath);
-        if(contentType && isValidPath(filePath)){
+        if (contentType && isValidPath(filePath)) {
             sendFile(res, filePath, contentType);
         }
         else {
@@ -38,20 +38,20 @@ function doGet(req,res) {
     }
 }
 
-const IMG = ['png','jpeg','gif'];
+const IMG = ['png', 'jpeg', 'gif'];
 
-function getContentType(url){
+function getContentType(url) {
     const paths = url.split('/');
-    const file = paths[paths.length-1];
-    if(hasExtension(file,'html')){
+    const file = paths[paths.length - 1];
+    if (hasExtension(file, 'html')) {
         return 'text/html';
-    } else if(hasExtension(file,'css')){
+    } else if (hasExtension(file, 'css')) {
         return 'text/css';
-    } else if(hasExtension(file,'js')){
+    } else if (hasExtension(file, 'js')) {
         return 'application/javascript';
-    } else{
-        for(i of IMG){
-            if(hasExtension(file,i)){
+    } else {
+        for (i of IMG) {
+            if (hasExtension(file, i)) {
                 return `image/${i}`;
             }
         }
@@ -69,7 +69,7 @@ function hasExtension(file, ext) {
     return new RegExp(`^[a-zA-Z0-9-_]+\\.${ext}$`).test(file);
 }
 
-const ALLOWED_PARENTS = ['scripts','assets'];
+const ALLOWED_PARENTS = ['scripts', 'assets'];
 
 /**
  * A path is valid if and only if:
@@ -79,18 +79,18 @@ const ALLOWED_PARENTS = ['scripts','assets'];
  * @param {*} filePath 
  */
 function isValidPath(filePath) {
-    if(!/^(?!.*test.*)(?:\w|\/|-|_)+(\.\w+)?$/.test(filePath)){
+    if (!/^(?!.*test.*)(?:\w|\/|-|_)+(\.\w+)?$/.test(filePath)) {
         return false;
     }
     const root = filePath.split('/')[0];
-    for(dir of ALLOWED_PARENTS){
-        if(dir === root)
+    for (dir of ALLOWED_PARENTS) {
+        if (dir === root)
             return true;
     };
     return false;
 }
 
-function sendFile(res, file, contentType='text/html') {
+function sendFile(res, file, contentType = 'text/html') {
     fs.readFile(file, (error, page) => {
         if (error) {
             console.log(error);
@@ -108,7 +108,7 @@ function sendFile(res, file, contentType='text/html') {
  * 
  * @param {http.ServerResponse} res 
  */
-function sendError(res,msg='Some msg.') {
+function sendError(res, msg = 'Some msg.') {
     fs.readFile('error.html', (error, page) => {
         res.statusCode = 404;
         if (error) {

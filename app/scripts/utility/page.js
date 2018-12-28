@@ -4,7 +4,7 @@
  * Note: DO NOT CLONE ANY OF THESE ELEMENTS.
  */
 
- // constants
+// constants
 const DATA = {
     LIST_ID: 'data-task-list-id',
     TASK_ID: 'data-task-id'
@@ -41,14 +41,14 @@ config.tab.clearActive = function () {
     config.tab.querySelector('.tablinks.active').classList.remove('active');
     config.querySelector('.panel.active').classList.remove('active');
 };
-config.tab.setActive = function(tab){
+config.tab.setActive = function (tab) {
     tab.classList.add('active');
     config.querySelector(`#${tab.getAttribute('data-panel-id')}`).classList.add('active');
 };
 config.tab.video = config.tab.querySelector('#open-video-panel');
 config.tab.import = config.tab.querySelector('#open-imported-task-panel');
 config.tab.setting = config.tab.querySelector('#open-settings-panel');
-config.tab.getAllTabs = function(){
+config.tab.getAllTabs = function () {
     return config.tab.querySelectorAll('.tablinks');
 };
 config.video = config.querySelector('#video-panel');
@@ -75,10 +75,21 @@ config.import.list.setActive = function (listId) {
         task.classList.add('active-task');
     }
 };
+
+// Initialize Setting Panel
+const setting = document.querySelector('#settings-panel');
+setting.config = {
+    timer: setting.querySelector("#timer-settings")
+};
+setting.control = setting.querySelector('.control-panel');
+setting.control.save = setting.control.querySelector('#saveSettings');
+setting.control.reset = setting.control.querySelector('#resetSettings');
+
+// Initialize Main Elements
 const title = document.querySelector('title');
 const defaultTitle = title.innerText;
-title.reset = function(){
+title.reset = function () {
     title.innerText = defaultTitle;
 };
 
-export {timer, config, title, DATA};
+export { timer, config, setting, title, DATA };

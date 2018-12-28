@@ -53,6 +53,16 @@ While I'm not completely new to front end concepts, I want to break down the dev
 - [ ] Add templating to customize error page
 - [ ] Play YouTube video or audio in background
     - [Web Worker/Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API#Audio_Workers)
+- [ ] sophisticated client side storage
+    - IndexDB
+- [ ] Convert to Spring Boot
+- [ ] Set up Postgresql DB
+- [ ] Set up Google OAuth 2.0 for login authentication
+- [ ] Save timer time whenever it's set
+- [ ] More settings
+    - New task appears at top
+    - Presets: breaks, exercise
+    - default time
 
 ## Settings
 - Add Presets (e.g. break~20min, exerciser~15min) - save these settings to cookies

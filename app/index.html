@@ -21,6 +21,7 @@
                 <button id="reset">Reset</button>
                 <button id="select">Select</button>
                 <button id="addTask">New</button>
+                <button id="addBreak">Break</button>
             </div>
             <div id="timer-list" class="list">
             </div>
@@ -51,7 +52,15 @@
                 </div>
             </div>
             <div id="settings-panel" class="panel">
-                <p>This panel is under construction.</p>
+                <div id="timer-settings">
+                    <h1>Breaks</h1>
+                    <label for="defaultBreakTime">Break Time</label> <input type="time" name="defaultBreakTime" id="defaultBreakTime"><br>
+                </div>
+                <div class="control-panel">
+                    <button id="saveSettings">Save</button>
+                    <button id="resetSettings">Default</button>
+                </div>
+                <div class="toast"></div>
             </div>
         </div>
         </div>
@@ -89,6 +98,7 @@
     <script src="https://apis.google.com/js/api.js"></script>
     <script type="module" src="scripts/config.js"></script>
     <script type="module" src="scripts/timer.js"></script>
+    <script type="module" src="scripts/setting.js"></script>
 </body>
 
 </html>
