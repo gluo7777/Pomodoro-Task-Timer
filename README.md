@@ -1,4 +1,4 @@
-# Background
+# Backgrounds
 I use apps like timer-tab.com, Google Tasks (and iOS apps) a lot and would like to integrate these functionalities, mainly for my own use cases and learning.
 
 # Goal
