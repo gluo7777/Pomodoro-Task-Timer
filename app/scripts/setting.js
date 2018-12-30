@@ -1,5 +1,5 @@
-import { setting } from './utility/page';
-import * as storage from './utility/storage';
+import { setting } from './utility/page.js';
+import * as storage from './utility/storage.js';
 
 // don't need DOMContentLoaded
 // Load saved settings from storage [cookies, database, etc.]
